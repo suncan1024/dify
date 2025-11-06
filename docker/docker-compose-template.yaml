@@ -664,6 +664,28 @@ services:
     ports:
       - ${OPENGAUSS_PORT:-6600}:${OPENGAUSS_PORT:-6600}
 
+  # gaussvector database.
+  gaussvector:
+    image: 
+    profiles:
+      - gaussvector
+    privileged: true
+    restart: always
+    environment:
+      GS_USERNAME: ${GAUSSVECTOR_USER:-postgres}
+      GS_PASSWORD: ${GAUSSVECTOR_PASSWORD:-Dify@123}
+      GS_PORT: ${GAUSSVECTOR_PORT:-8800}
+      GS_DB: ${GAUSSVECTOR_DATABASE:-dify}
+    volumes:
+      - ./volumes/gaussvector/data:/var/lib/gaussvector/data
+    healthcheck:
+      test: ["CMD-SHELL", "netstat -lntp | grep tcp6 > /dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    ports:
+      - ${GAUSSVECTOR_PORT:-8800}:${GAUSSVECTOR_PORT:-8800}
+
   # MyScale vector database
   myscale:
     container_name: myscale

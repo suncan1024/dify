@@ -330,6 +330,13 @@ x-shared-env: &shared-api-worker-env
   OPENGAUSS_MIN_CONNECTION: ${OPENGAUSS_MIN_CONNECTION:-1}
   OPENGAUSS_MAX_CONNECTION: ${OPENGAUSS_MAX_CONNECTION:-5}
   OPENGAUSS_ENABLE_PQ: ${OPENGAUSS_ENABLE_PQ:-false}
+  GAUSSVECTOR_HOST: ${GAUSSVECTOR_HOST:-gaussvector}
+  GAUSSVECTOR_PORT: ${GAUSSVECTOR_PORT:-8800}
+  GAUSSVECTOR_USER: ${GAUSSVECTOR_USER:-postgres}
+  GAUSSVECTOR_PASSWORD: ${GAUSSVECTOR_PASSWORD:-Dify@123}
+  GAUSSVECTOR_DATABASE: ${GAUSSVECTOR_DATABASE:-dify}
+  GAUSSVECTOR_MIN_CONNECTION: ${GAUSSVECTOR_MIN_CONNECTION:-1}
+  GAUSSVECTOR_MAX_CONNECTION: ${GAUSSVECTOR_MAX_CONNECTION:-5}
   HUAWEI_CLOUD_HOSTS: ${HUAWEI_CLOUD_HOSTS:-https://127.0.0.1:9200}
   HUAWEI_CLOUD_USER: ${HUAWEI_CLOUD_USER:-admin}
   HUAWEI_CLOUD_PASSWORD: ${HUAWEI_CLOUD_PASSWORD:-admin}
@@ -1258,27 +1265,27 @@ services:
     depends_on:
       - opensearch
 
-  # opengauss vector database.
-  opengauss:
-    image: opengauss/opengauss:7.0.0-RC1
+  # gaussvector database.
+  gaussvector:
+    image: 
     profiles:
-      - opengauss
+      - gaussvector
     privileged: true
     restart: always
     environment:
-      GS_USERNAME: ${OPENGAUSS_USER:-postgres}
-      GS_PASSWORD: ${OPENGAUSS_PASSWORD:-Dify@123}
-      GS_PORT: ${OPENGAUSS_PORT:-6600}
-      GS_DB: ${OPENGAUSS_DATABASE:-dify}
+      GS_USERNAME: ${GAUSSVECTOR_USER:-postgres}
+      GS_PASSWORD: ${GAUSSVECTOR_PASSWORD:-Dify@123}
+      GS_PORT: ${GAUSSVECTOR_PORT:-8800}
+      GS_DB: ${GAUSSVECTOR_DATABASE:-dify}
     volumes:
-      - ./volumes/opengauss/data:/var/lib/opengauss/data
+      - ./volumes/gaussvector/data:/var/lib/gaussvector/data
     healthcheck:
       test: ["CMD-SHELL", "netstat -lntp | grep tcp6 > /dev/null 2>&1"]
       interval: 10s
       timeout: 10s
       retries: 10
     ports:
-      - ${OPENGAUSS_PORT:-6600}:${OPENGAUSS_PORT:-6600}
+      - ${GAUSSVECTOR_PORT:-8800}:${GAUSSVECTOR_PORT:-8800}
 
   # MyScale vector database
   myscale:

@@ -46,6 +46,7 @@ from .vdb.upstash_config import UpstashConfig
 from .vdb.vastbase_vector_config import VastbaseVectorConfig
 from .vdb.vikingdb_config import VikingDBConfig
 from .vdb.weaviate_config import WeaviateConfig
+from .vdb.gaussvector_config import GaussVectorConfig
 
 
 class StorageConfig(BaseSettings):
@@ -356,5 +357,6 @@ class MiddlewareConfig(
     TableStoreConfig,
     DatasetQueueMonitorConfig,
     MatrixoneConfig,
+    GaussVectorConfig,
 ):
     pass

@@ -183,6 +183,10 @@ class Vector:
                 from core.rag.datasource.vdb.clickzetta.clickzetta_vector import ClickzettaVectorFactory
 
                 return ClickzettaVectorFactory
+            case VectorType.GAUSSVECTOR:
+                from core.rag.datasource.vdb.gaussvector.gaussvector import GaussVectorFactory
+
+                return GaussVectorFactory
             case _:
                 raise ValueError(f"Vector store {vector_type} is not supported.")
 
